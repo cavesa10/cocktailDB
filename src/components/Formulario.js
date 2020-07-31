@@ -1,28 +1,60 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CategoriasContext } from "../context/CategoriasContext";
-import { v4 as uuidv4 } from "uuid";
+import { RecetasContext } from "../context/RecetasContext";
 
 export const Formulario = () => {
+  const [busqueda, setBusqueda] = useState({
+    nombre: "",
+    categoria: "",
+  });
+
+  const [error, setError] = useState(false)
+
   const { categorias } = useContext(CategoriasContext);
+  const { setBusquedaRecetas } = useContext(RecetasContext);
+
+  const handleOnChange = (e) => {
+    setBusqueda({
+      ...busqueda,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    if(busqueda.nombre.trim() === "" || busqueda.categoria.trim() === "" ){ 
+      setError(true) 
+      return 0
+    }
+    setError(false)
+
+    setBusquedaRecetas(busqueda)
+  }
+
   return (
-    <form className="col-12">
+    <form onSubmit={handleSubmit} className="col-12">
       <fieldset className="text-center">
         <legend>Busca bebidas por Categoría o Ingrediente</legend>
       </fieldset>
       <div className="row">
         <div className="col-md-4">
           <input
-            type="text"
             name="nombre"
             className="form-control"
+            type="text"
             placeholder="Buscar por Ingrediente"
+            onChange={handleOnChange}
           />
         </div>
         <div className="col-md-4">
-          <select name="" id="" className="form-control">
+          <select
+            className="form-control"
+            name="categoria"
+            onChange={handleOnChange}
+          >
             <option value="">-- Selecciona Catgoría --</option>
             {categorias.map((categoria) => (
-              <option key={uuidv4()} value={categoria.strCategory}>
+              <option key={categoria.strCategory} value={categoria.strCategory}>
                 {categoria.strCategory}
               </option>
             ))}
@@ -36,6 +68,7 @@ export const Formulario = () => {
           />
         </div>
       </div>
+      {error ? <p className="text-center mt-3 alert-danger p-1" >Todos los campos son obligatorio</p>: null}
     </form>
   );
 };

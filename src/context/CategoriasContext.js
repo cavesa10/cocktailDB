@@ -1,6 +1,5 @@
 import React, {useEffect, useState, createContext} from 'react'
 
-
 export const CategoriasContext = createContext()
 
 
@@ -14,7 +13,6 @@ export const CategoriasProvider = (props) => {
       const category = await fetch(URL)
       const data = await category.json()
       setCategorias(data.drinks)
-      console.log(data)
     }
     llamadoApi()
   }, [])
