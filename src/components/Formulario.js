@@ -3,6 +3,7 @@ import { CategoriasContext } from "../context/CategoriasContext";
 import { RecetasContext } from "../context/RecetasContext";
 
 export const Formulario = () => {
+  // state
   const [busqueda, setBusqueda] = useState({
     nombre: "",
     categoria: "",
@@ -10,9 +11,11 @@ export const Formulario = () => {
 
   const [error, setError] = useState(false)
 
+  // Context
   const { categorias } = useContext(CategoriasContext);
-  const { setBusquedaRecetas } = useContext(RecetasContext);
+  const { setRecetasApi } = useContext(RecetasContext);
 
+  // manejadores de eventos
   const handleOnChange = (e) => {
     setBusqueda({
       ...busqueda,
@@ -27,8 +30,7 @@ export const Formulario = () => {
       return 0
     }
     setError(false)
-
-    setBusquedaRecetas(busqueda)
+    setRecetasApi(busqueda)
   }
 
   return (
