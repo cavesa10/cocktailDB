@@ -9,8 +9,7 @@ export const RecetasProvider = (props) => {
     categoria: ''
   })
   useEffect( () => {
-    console.log( recetasApi.nombre)
-    if( recetasApi.nombre === '' ) {return}
+    if( recetasApi.nombre === '' || recetasApi.categoria === '' ) {return}
     
     const obtenerRecetas = async () => {
       const API = `https://thecocktaildb.com/api/json/v1/1/filter.php?i=${recetasApi.nombre}&c=${recetasApi.categoria}`
